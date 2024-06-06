@@ -14,10 +14,15 @@ def evaluate_lower_possibility(alternative_data:pd.Series, possibility_function_
             possibility_values[index] = 1
             continue
 
+        # On the other hand, if the value is past the biggest turning point, it is zero
+        if criteria_val >= possibility_function_definitions['x4'][criteria]:
+            possibility_values[index] = 0
+            continue
+
         # Otherwise it is necessary to calculate the y value from the x = criteria_val in the 
         #line that represents the possibility function of the form y = ax + b
-        a = 1 / (possibility_function_definitions['x4'][criteria] - possibility_function_definitions['x3'][criteria])
-        b = -1 * possibility_function_definitions['x4'][criteria] * criteria_val
+        a = -1 / (possibility_function_definitions['x4'][criteria] - possibility_function_definitions['x3'][criteria])
+        b = -1 * possibility_function_definitions['x4'][criteria] * a
         possibility_values[index] = a*criteria_val + b
 
     return possibility_values
